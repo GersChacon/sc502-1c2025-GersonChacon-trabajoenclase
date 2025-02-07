@@ -26,5 +26,13 @@ function calculate() {
             alert("La operacion no existe")
     }
     document.getElementById('result').innerText = result;
+}
 
+function edad() {
+    let num1 = parseFloat(document.getElementById("num1").value);
+    if (num1 >= 18) {
+        alert('Mayor');
+    } else {
+        alert('Menor');
+    }
 }
