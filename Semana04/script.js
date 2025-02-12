@@ -30,9 +30,34 @@ function calculate() {
 
 function edad() {
     let num1 = parseFloat(document.getElementById("num1").value);
+    let result = "";
+
     if (num1 >= 18) {
-        alert('Mayor');
+        result = "Mayor";
     } else {
-        alert('Menor');
+        result = "Menor";
     }
+    document.getElementById('result').innerText = result;
 }
+
+function lista() {
+    const estudiante1 = { nombre: "Gerson", apellido: "Chacon", nota: 87 };
+    const estudiante2 = { nombre: "Esteban", apellido: "Quiros", nota: 95 };
+    const estudiantes = [estudiante1, estudiante2];
+
+    let listaHTML = "";
+    let total = 0;
+    let totalNotas = estudiantes.length;
+
+    for (let item of estudiantes) {
+        listaHTML += `Nombre: ${item.nombre}, Apellido: ${item.apellido}, Nota: ${item.nota}<br>`;
+        total += item.nota;
+    }
+
+    let promedio = total / totalNotas;
+
+    document.getElementById("listaEstudiantes").innerHTML = listaHTML;
+    document.getElementById("sumatotal").innerHTML = promedio;
+}
+
+lista();
