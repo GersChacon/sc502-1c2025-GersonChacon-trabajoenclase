@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     commentsList += `<li class="list-group-item">${comment.description} 
                     <button type="button" class="btn btn-sm btn-link remove-comment" data-visitid="${task.id}" data-commentid="${comment.id}">Remove</button>
                     </li>`;
-                });
+                }); 
                 commentsList += '</ul>';
             }
             const taskCard = document.createElement('div');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // alert(e.target.dataset.id);
                 document.getElementById("comment-task-id").value = e.target.dataset.id;
                 const modal = new bootstrap.Modal(document.getElementById("commentModal"));
-                modal.show()
+            modal.show()
 
             })
         });
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let commentId = parseInt(e.target.dataset.commentid);
                 selectedTask = tasks.find(t => t.id === taskId);
                 commentIndex = selectedTask.comments.findIndex(c => c.id === commentId);
-                selectedTask.comments.splice(commentIndex, 1);
+                selectedTask.comments.splice(commentIndex,1);
                 loadTasks();
             })
         });
@@ -127,22 +127,22 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTasks();
     }
 
-    document.getElementById('comment-form').addEventListener('submit', function (e) {
+    document.getElementById('comment-form').addEventListener('submit', function (e){
         e.preventDefault();
         const comment = document.getElementById('task-comment').value;
         const selectedTask = parseInt(document.getElementById('comment-task-id').value);
-        const task = tasks.find(t => t.id === selectedTask);
+        const task = tasks.find(t=> t.id === selectedTask);
 
 
         let nextCommentId = 1;
-
-        if (task.comments) {
+         
+        if(task.comments){
             nextCommentId = task.comments.length + 1;
-        } else {
+        }else{
             task.comments = [];
         }
-
-        task.comments.push({ id: nextCommentId, description: comment });
+        
+        task.comments.push({id: nextCommentId, description: comment});
         const modal = bootstrap.Modal.getInstance(document.getElementById('commentModal'));
         modal.hide();
         loadTasks();
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTasks();
     });
 
-    document.getElementById('commentModal').addEventListener('show.bs.modal', function () {
+    document.getElementById('commentModal').addEventListener('show.bs.modal', function(){
         document.getElementById('comment-form').reset();
     })
 
