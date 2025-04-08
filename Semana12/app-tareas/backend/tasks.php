@@ -27,7 +27,15 @@ function getTasksByUser($userId)
         global $pdo;
         $stmt = $pdo->prepare("SELECT * FROM tasks where user_id = :user_id");
         $stmt->execute(['user_id' => $userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($tasks as &$task) {
+            $stmt = $pdo->prepare("SELECT id, comment as description FROM comments WHERE task_id = :task_id");
+            $stmt->execute(['task_id' => $task['id']]);
+            $task['comments'] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        }
+
+        return $tasks;
     } catch (Exception $ex) {
         echo "Error al obtener las tareas del usuario" . $ex->getMessage();
         return [];
