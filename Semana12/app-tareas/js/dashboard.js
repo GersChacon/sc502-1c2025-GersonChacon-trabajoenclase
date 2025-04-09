@@ -35,10 +35,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     commentsList += `
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${comment.description}
-                        <button type="button" class="btn btn-sm btn-outline-danger delete-comment" 
-                                data-taskid="${task.id}" data-commentid="${comment.id}">
-                            Remove
-                        </button>
+                        <div>
+                            <button type="button" class="btn btn-secondary btn-sm edit-comment me-2" 
+                                    data-taskid="${task.id}" data-commentid="${comment.id}">
+                                Edit
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete-comment" 
+                                    data-taskid="${task.id}" data-commentid="${comment.id}">
+                                Delete
+                            </button>
+                        </div>
                     </li>`;
                 });
                 commentsList += '</ul>';
@@ -64,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
             taskList.appendChild(taskCard);
         });
 
-        // Asignar event listeners
         document.querySelectorAll('.edit-task').forEach(button => {
             button.addEventListener('click', handleEditTask);
         });
@@ -79,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.querySelectorAll('.delete-comment').forEach(button => {
             button.addEventListener('click', handleDeleteComment);
+        });
+
+        document.querySelectorAll('.edit-comment').forEach(button => {
+            button.addEventListener('click', handleEditComment);
         });
     }
 
@@ -125,6 +134,9 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('comment-task-id').value = event.target.dataset.taskid;
         document.getElementById('task-comment').value = '';
 
+        // Actualizar el título del modal
+        document.getElementById('commentModalLabel').textContent = 'Add Comment';
+
         const modal = new bootstrap.Modal(document.getElementById("commentModal"));
         modal.show();
     }
@@ -140,6 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
             edittingCommentId = commentId;
             document.getElementById('comment-task-id').value = taskId;
             document.getElementById('task-comment').value = comment.description;
+
+            document.getElementById('commentModalLabel').textContent = 'Edit Comment';
 
             const modal = new bootstrap.Modal(document.getElementById("commentModal"));
             modal.show();
@@ -244,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function () {
         loadTasks();
     });
 
-    // Eventos de los modales
     document.getElementById('commentModal').addEventListener('show.bs.modal', function () {
         document.getElementById('comment-form').reset();
     });
@@ -252,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("commentModal").addEventListener('hidden.bs.modal', function () {
         edittingCommentId = null;
         isCommentEditMode = false;
+        document.getElementById('commentModalLabel').textContent = 'Add Comment';
     });
 
     document.getElementById('taskModal').addEventListener('show.bs.modal', function () {
@@ -265,6 +279,5 @@ document.addEventListener('DOMContentLoaded', function () {
         isEditMode = false;
     });
 
-    // Cargar tareas iniciales
     loadTasks();
 });
